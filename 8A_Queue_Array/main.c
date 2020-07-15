@@ -42,6 +42,7 @@ void createQueue(){
 
 void enqueue(int value){
     node_t *newNode = (node_t*) malloc(sizeof (node_t));
+    queue = createQueue();
     if (newNode == NULL) {
         // no more memory, heap is full
         printf("No more memory\n");
