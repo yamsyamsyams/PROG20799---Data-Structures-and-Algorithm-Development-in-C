@@ -37,7 +37,6 @@ bool isFull(){
 
 void createQueue(){
     node_t* queue = (node_t*)malloc(sizeof(node_t));
-    node_t* queue[MAX_SIZE] = {0};
     return queue;
 }
 
