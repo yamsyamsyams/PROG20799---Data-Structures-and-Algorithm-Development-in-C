@@ -38,54 +38,101 @@ void preorder(tree_node_t *node) {
     }
 }
 
-void inOrder(tree_node_t *node){
-    if(node !=NULL){
+void inOrder(tree_node_t *node) {
+    if (node != NULL) {
         inOrder(node->left);
         visit(node);
         inOrder(node->right);
     }
 }
 
-void postOrder(tree_node_t *node){
-    if(node !=NULL){
+void postOrder(tree_node_t *node) {
+    if (node != NULL) {
         postOrder(node->left);
         postOrder(node->right);
         visit(node);
     }
 }
 
-int nodesCount(tree_node_t *node){
-    if(node == NULL){
+int nodesCount(tree_node_t *node) {
+    if (node == NULL) {
         return 0;
     }
     return 1 + nodesCount(node->left) + nodesCount(node->right);
 }
 
+tree_node_t *insert(tree_node_t *node, int number) {
+    //todo: deal with doublicates
+
+    if (node == NULL) {
+        return newNode(number);
+    }
+
+    if (number < node->data.number)
+        node->left = insert(node->left, number);
+    else
+        node->right = insert(node->right, number);
+    return node;
+}
+
+// either returns null if number doesn't exist in tree, otherwise return pointer to node
+tree_node_t* search(tree_node_t *root, int number) {
+
+    if (root == NULL || number == root->data.number)
+        return root;
+
+    if (number > root->data.number) {
+        search(root->right, number);
+    } else {
+        search(root->left, number);
+    }
+}
+
 int main() {
     tree_node_t *root = newNode(8);
-    root->left = newNode(3);
-    root->left->left = newNode(1);
-    root->left->right = newNode(6);
-    root->left->right->left = newNode(4);
-    root->left->right->right = newNode(7);
+    insert(root, 2);
+    insert(root, 5);
+    insert(root, 6);
+    insert(root, 8);
+    insert(root, 10);
 
-    root->right = newNode(10);
-    root->right->right = newNode(14);
-    root->right->right->left = newNode(13);
-    
+    tree_node_t* searchNode = search(root, 10);
+    if(searchNode != NULL){
+        printf("number found\n");
+    }
+    else{
+        printf("number not found\n");
+    }
+
     printf("Preorder: ");
     preorder(root);
     printf("\n");
-    
+
     printf("Inorder: ");
     inOrder(root);
     printf("\n");
-    
+
     printf("Postorder: ");
     postOrder(root);
     printf("\n");
-    
+
     printf("Tree has %d nodes", nodesCount(root));
+
+
+
+    /*
+        root->left = newNode(3);
+        root->left->left = newNode(1);
+        root->left->right = newNode(6);
+        root->left->right->left = newNode(4);
+        root->left->right->right = newNode(7);
+
+        root->right = newNode(10);
+        root->right->right = newNode(14);
+        root->right->right->left = newNode(13);
+     */
+
+
 
     return 0;
 }
